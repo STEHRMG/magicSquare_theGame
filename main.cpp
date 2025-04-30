@@ -47,14 +47,7 @@ void printArray(const std::array<std::array<T, Col>, Row>& array2D)
 		std::cout << '\n';
 	}
 }
-/*
-template <typename T, std::size_t Col, std::size_t Row>
 
-void makeMove(std::array<std::array<T, Col>, Row>& array2D, Position& position, int rDirection, int cDirection)
-{
-	
-}
-*/
 template <typename T, std::size_t Col, std::size_t Row>
 
 void moveTile(std::array<std::array<T, Col>, Row>& array2D)
@@ -137,20 +130,48 @@ void moveTile(std::array<std::array<T, Col>, Row>& array2D)
 	}
 }
 
+template <typename T, std::size_t Col, std::size_t Row>
+
+bool isSolved(std::array<std::array<T, Col>, Row>& array2D)
+{
+	T comp{ 1 };
+	for(auto& arr: array2D)
+	{
+		for(auto& el: arr)
+		{
+			if(comp != el)
+			{
+				return false;
+			}
+			if(comp == 8)
+			{
+				comp -= 8;
+				continue;	
+			}
+			++comp;
+		}
+	}
+
+	return true;
+}
+
 int main()
 {
 	std::array<std::array<int, 3>, 3> gameBoard{{
-		{8, 1, 2},
-	       	{3, 4, 5},
-	       	{6, 7, 0}
+		{1, 2, 3},
+	       	{4, 5, 6},
+	       	{0, 7, 8}
 	}};
-
-	printArray(gameBoard);
-	moveTile(gameBoard);
 	
-	std::system("clear");
 	printArray(gameBoard);
+	while(!isSolved(gameBoard))
+	{
+		moveTile(gameBoard);
+		std::system("clear");
+		printArray(gameBoard);
+	}
 
+	std::cout << "Congratulation, you solved it!\n";
 
 	return EXIT_SUCCESS;
 }
